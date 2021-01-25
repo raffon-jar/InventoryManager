@@ -6,7 +6,7 @@ import be.raffon.inventorymanager.inventories.CInventory;
 
 public class jsoninventory {
 	
-	public static JSONObject jsoninv = null;
+	private static JSONObject jsoninv = null;
 	
 	@SuppressWarnings("static-access")
 	public jsoninventory(JSONObject inventory) {

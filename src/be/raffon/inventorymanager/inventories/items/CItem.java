@@ -20,7 +20,7 @@ public class CItem {
 	
 	public void onClick(CItem item) {
 		if(IdentifyIs(item)) {
-			onclick.execute();
+			this.onclick.execute();
 		}
 	}
 	

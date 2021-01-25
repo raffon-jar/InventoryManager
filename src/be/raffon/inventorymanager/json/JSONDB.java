@@ -14,9 +14,9 @@ import be.raffon.inventorymanager.inventories.CInventory;
 
 public class JSONDB {
 	
-	static public File js = null;
+	static private File js = null;
 	
-	static public JSONObject json = null;
+	static private JSONObject json = null;
 	
 	@SuppressWarnings("static-access")
 	public JSONDB() {
