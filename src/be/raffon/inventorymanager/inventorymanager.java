@@ -14,7 +14,7 @@ public class inventorymanager extends JavaPlugin{
 	@Override
 	public void onEnable() {
 		JSONDB.onStart(this.getDataFolder());
-		System.out.println("Staff plugin succefuly loaded !");
+		System.out.println("Inventory manager succefuly loaded !");
 		System.setProperty("file.encoding", "UTF-8");
 	}
 }

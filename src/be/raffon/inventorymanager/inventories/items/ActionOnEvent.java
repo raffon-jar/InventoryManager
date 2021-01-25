@@ -1,6 +1,6 @@
 package be.raffon.inventorymanager.inventories.items;
 
-public class ActionOnClick {
+public class ActionOnEvent {
 
 	public void execute() {
 		

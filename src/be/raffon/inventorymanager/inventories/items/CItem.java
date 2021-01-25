@@ -2,16 +2,20 @@ package be.raffon.inventorymanager.inventories.items;
 
 import org.bukkit.inventory.ItemStack;
 
+import be.raffon.inventorymanager.permissions.CPerm;
+
 public class CItem {
 	
 	private ItemStack itemstack = null;
 	private CLocation location = null;
-	private ActionOnClick onclick = null;
+	private ActionOnEvent onclick = null;
+	private CPerm cperm = null;
 	
-	public CItem(ItemStack is, CLocation loc, ActionOnClick onclick) {
+	public CItem(ItemStack is, CLocation loc, ActionOnEvent onevent, CPerm permission) {
 		this.itemstack = is;
 		this.location = loc;
-		this.onclick = onclick;
+		this.onclick = onevent;
+		this.cperm = permission;
 	}
 	
 	public void onClick(CItem item) {
@@ -21,7 +25,7 @@ public class CItem {
 	}
 	
 	public Boolean equals(CItem it) {
-		return (it.returnIS().equals(this.itemstack) && it.returnLoc().equals(this.location)&& it.returnLoc().equals(this.location));
+		return (it.returnIS().equals(this.itemstack) && it.returnLoc().equals(this.location)&& it.returnLoc().equals(this.location)&& it.returnPerm().equals(this.cperm));
 	}
 	
 	public ItemStack returnIS() {
@@ -32,8 +36,12 @@ public class CItem {
 		return location;
 	}
 	
-	public ActionOnClick returnOnClick() {
+	public ActionOnEvent returnOnClick() {
 		return onclick;
+	}
+	
+	public CPerm returnPerm() {
+		return cperm;
 	}
 	
 	private Boolean IdentifyIs(CItem it) {
