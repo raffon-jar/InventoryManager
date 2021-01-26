@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import org.bukkit.inventory.Inventory;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -33,7 +34,7 @@ public class JSONDB {
 		
 	}
 	
-	public static CInventory getInventory(String inventory) {
+	public static CInventory verifyInventory(Inventory inventory) {
 		if(json == null) {
 			System.out.println("ERROR: the json database has not been initialized. Please make a `new JSONDB()` before trying to get the inventory.");
 			return null; 
@@ -43,7 +44,7 @@ public class JSONDB {
 		for(int k=0; k<inventories.size();k++) {
 			JSONObject inv = (JSONObject) inventories.get(k);
 			String name = (String) inv.get("name");
-			if(name.equals(inventory) ) {
+			if(inventory.equals(new jsoninventory(inv).getCInventory().getInventory())) {
 				found = true;
 				return new jsoninventory(inv).getCInventory();
 			}

@@ -1,5 +1,5 @@
 package be.raffon.inventorymanager.listener;
 
-public class OnDrag {
+public class Events {
 
 }
