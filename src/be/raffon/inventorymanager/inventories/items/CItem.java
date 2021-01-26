@@ -25,22 +25,22 @@ public class CItem {
 	}
 	
 	public Boolean equals(CItem it) {
-		return (it.returnIS().equals(this.itemstack) && it.returnLoc().equals(this.location)&& it.returnLoc().equals(this.location)&& it.returnPerm().equals(this.cperm));
+		return (it.getIS().equals(this.itemstack) && it.getLoc().equals(this.location)&& it.getOnEvent().equals(this.location)&& it.getPerm().equals(this.cperm));
 	}
 	
-	public ItemStack returnIS() {
+	public ItemStack getIS() {
 		return itemstack;
 	}
 	
-	public CLocation returnLoc() {
+	public CLocation getLoc() {
 		return location;
 	}
 	
-	public ActionOnEvent returnOnClick() {
+	public ActionOnEvent getOnEvent() {
 		return onclick;
 	}
 	
-	public CPerm returnPerm() {
+	public CPerm getPerm() {
 		return cperm;
 	}
 	

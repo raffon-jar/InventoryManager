@@ -25,6 +25,10 @@ public class CInventory {
 		return null;
 	}
 	
+	public Events getEvents() {
+		return ev;
+	}
+	
 	public CItem getCItem(ItemStack is, CLocation loc) {
 		for(int k=0; k<ar.size(); k++) {
 			Page page = ar.get(k);

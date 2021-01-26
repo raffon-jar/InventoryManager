@@ -4,7 +4,7 @@ import org.bukkit.inventory.Inventory;
 
 public class InventoryManager {
 
-	public Inventory getInventory() {
+	public static CInventory getInventory(Inventory inv) {
 		return null;
 	}
 

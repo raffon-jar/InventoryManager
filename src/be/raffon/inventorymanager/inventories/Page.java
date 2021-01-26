@@ -18,6 +18,12 @@ public class Page {
 	}
 	
 	public CItem getCItem(ItemStack is, CLocation loc) {
+		for(int k=0; k<ar.size(); k++) {
+			CItem item = ar.get(k);
+			if(item.getIS().equals(is) && item.getLoc().equals(loc)) {
+				return item;
+			}
+		}
 		return null;
 	}
 
