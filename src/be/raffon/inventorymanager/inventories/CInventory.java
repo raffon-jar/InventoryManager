@@ -8,17 +8,20 @@ import org.bukkit.inventory.ItemStack;
 import be.raffon.inventorymanager.inventories.items.CItem;
 import be.raffon.inventorymanager.inventories.items.CLocation;
 import be.raffon.inventorymanager.listener.Events;
+import be.raffon.inventorymanager.permissions.CPerm;
 
 public class CInventory {
 	
 	private ArrayList<Page> ar = null;
 	private Events ev = null;
 	private Inventory iv = null;
+	private CPerm perm = null;
 	
-	public CInventory(ArrayList<Page> pages, Events events, Inventory inv) {
+	public CInventory(ArrayList<Page> pages, Events events, Inventory inv, CPerm openperm) {
 		this.ar = pages;
 		this.ev = events;
 		this.iv = inv;
+		this.perm = openperm;
 	}
 	
 	public Inventory getInventory() {

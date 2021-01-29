@@ -18,11 +18,6 @@ public class CItem {
 		this.cperm = permission;
 	}
 	
-	public void onClick(CItem item) {
-		if(IdentifyIs(item)) {
-			this.onclick.execute();
-		}
-	}
 	
 	public Boolean equals(CItem it) {
 		return (it.getIS().equals(this.itemstack) && it.getLoc().equals(this.location)&& it.getOnEvent().equals(this.location)&& it.getPerm().equals(this.cperm));

@@ -1,0 +1,17 @@
+name: InventoryManager
+main: be.raffon.inventorymanager.inventorymanager
+version: 0.1
+description: 
+author: Raffon
+api-version: 1.16
+commands:
+  inv:
+    description: 
+    usage: /inv
+    permission: inv.open
+    aliases:
+    - inv
+permissions:
+  inv.open:
+    description: 
+    default: true

@@ -15,6 +15,6 @@ public class CPerm {
 	}
 	
 	public Boolean hasPermission(Player pl, PermissionType p) {
-		return (pl.hasPermission(perm) && p.equals(pt));
+		return (pl.hasPermission(perm) && p.isType(pt));
 	}
 }

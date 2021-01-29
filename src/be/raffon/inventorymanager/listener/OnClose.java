@@ -18,7 +18,7 @@ public class OnClose implements Listener {
 	}
     
 	public void execute() {
-		
+		it.getPerm();
 	}
 
     

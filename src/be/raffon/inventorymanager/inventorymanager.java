@@ -56,7 +56,6 @@ public class inventorymanager extends JavaPlugin implements Listener{
     	Inventory inv = ev.getInventory();
     	CInventory cinv = InventoryManager.getInventory(inv);
     	Events events = cinv.getEvents();
-    	System.out.println("test");
     
     }
     

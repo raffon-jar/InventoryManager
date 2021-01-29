@@ -1,15 +1,20 @@
 package be.raffon.inventorymanager.permissions;
 
+@SuppressWarnings("static-access")
 public class PermissionType {
 	//Types: drag-Click
 	private static String type = "";
 	
-	@SuppressWarnings("static-access")
+	
 	public PermissionType(String t) {
 		this.type = t;
 	}
 	
-	public Boolean isType(String type) {
-		return type.equals(this.type);
+	public String getType() {
+		return this.type;
+	}
+	
+	public Boolean isType(PermissionType type) {
+		return type.getType().equals(this.type);
 	}
 }
