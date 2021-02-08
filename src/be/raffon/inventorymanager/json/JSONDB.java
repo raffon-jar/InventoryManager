@@ -1,10 +1,12 @@
 package be.raffon.inventorymanager.json;
 
 import java.io.File;
+
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -12,14 +14,15 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import be.raffon.inventorymanager.inventories.CInventory;
+import be.raffon.inventorymanager.inventories.InventoryManager;
 
+@SuppressWarnings("static-access")
 public class JSONDB {
 	
 	static private File js = null;
 	
 	static private JSONObject json = null;
 	
-	@SuppressWarnings("static-access")
 	public JSONDB() {
 		try {
 			JSONParser jsonparser = new JSONParser();
@@ -34,6 +37,7 @@ public class JSONDB {
 		
 	}
 	
+	
 	public static CInventory verifyInventory(Inventory inventory) {
 		if(json == null) {
 			System.out.println("ERROR: the json database has not been initialized. Please make a `new JSONDB()` before trying to get the inventory.");
@@ -44,9 +48,9 @@ public class JSONDB {
 		for(int k=0; k<inventories.size();k++) {
 			JSONObject inv = (JSONObject) inventories.get(k);
 			String name = (String) inv.get("name");
-			if(inventory.equals(new jsoninventory(inv).getCInventory().getInventory())) {
+			if(new InventoryManager().getCInventory(inv).matchInv(inventory)) {
 				found = true;
-				return new jsoninventory(inv).getCInventory();
+				return new InventoryManager().getCInventory(inv);
 			}
 		}
 		if(!found) {
@@ -54,6 +58,28 @@ public class JSONDB {
 			return null;
 		}
 		return null;
+	}
+	
+	public static void displayInv(String s, Player p) {
+		if(json == null) {
+			System.out.println("ERROR: the json database has not been initialized. Please make a `new JSONDB()` before trying to get the inventory.");
+			return; 
+		}
+		JSONArray inventories = (JSONArray) json.get("Inventories");
+		Boolean found = false;
+		for(int k=0; k<inventories.size();k++) {
+			JSONObject inv = (JSONObject) inventories.get(k);
+			String name = (String) inv.get("name");
+			if(name.equals(s)) {
+				found = true;
+				new InventoryManager().getCInventory(inv).open(p);
+			}
+		}
+		if(!found) {
+			p.sendMessage("ERROR: The inventory you are looking for doesn't exist.");
+			return;
+		}
+		return;
 		
 	}
 	

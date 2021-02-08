@@ -2,6 +2,7 @@ package be.raffon.inventorymanager.inventories;
 
 import java.util.ArrayList;
 
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -14,19 +15,16 @@ public class CInventory {
 	
 	private ArrayList<Page> ar = null;
 	private Events ev = null;
-	private Inventory iv = null;
 	private CPerm perm = null;
+	private Outlines out = null;
 	
-	public CInventory(ArrayList<Page> pages, Events events, Inventory inv, CPerm openperm) {
+	public CInventory(ArrayList<Page> pages, Events events, CPerm openperm, Outlines outlines) {
 		this.ar = pages;
 		this.ev = events;
-		this.iv = inv;
 		this.perm = openperm;
+		this.out = outlines;
 	}
 	
-	public Inventory getInventory() {
-		return null;
-	}
 	
 	public Events getEvents() {
 		return ev;
@@ -39,6 +37,14 @@ public class CInventory {
 				return page.getCItem(is, loc);
 			}
 		}
+		return null;
+	}
+	
+	public void open(Player p) {
+		
+	}
+	
+	public Boolean matchInv(Inventory inv) {
 		return null;
 	}
 }

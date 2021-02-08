@@ -3,6 +3,8 @@ package be.raffon.inventorymanager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,7 +22,7 @@ import be.raffon.inventorymanager.inventories.items.CLocation;
 import be.raffon.inventorymanager.json.JSONDB;
 import be.raffon.inventorymanager.listener.Events;
 import be.raffon.inventorymanager.listener.OnClick;
-
+@SuppressWarnings("static-access")
 public class inventorymanager extends JavaPlugin implements Listener{
 
 	
@@ -63,6 +65,22 @@ public class inventorymanager extends JavaPlugin implements Listener{
     public void onClose(InventoryCloseEvent ev) {
     
     }
+    
+	
+	@EventHandler
+	public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(ChatColor.RED + "Console can not use this plugin!");
+            return true;
+        }
+        if(args.length == 0) {
+        	sender.sendMessage(ChatColor.RED + "The inventory is not valid usage: /inv <name> !");
+        	return true;
+        }
+        Player player = (Player) sender;
+        new JSONDB().displayInv(args[0], player);
+		return true;
+	}
     
 
 }
