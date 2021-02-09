@@ -14,22 +14,22 @@ public class Page {
 	private Outlines outlines = null;
 	private Integer row = null;
 	
-	public Page(ArrayList<CItem> items, Integer page, String grid, Outlines outlines, Integer row, String gap) {
+	public Page(ArrayList<CItem> items, Integer page, String grid, Outlines outlines, Integer row, String gap, String align) {
 		this.ar = items;
 		this.number = page;
 		this.outlines = outlines;
 		this.row = row;
-		grid(grid, gap);
+		grid(grid, gap, align);
 	}
 	
-	public Page(ArrayList<CItem> items, Integer page, String grid, Integer row, String gap) {
+	public Page(ArrayList<CItem> items, Integer page, String grid, Integer row, String gap, String align) {
 		this.ar = items;
 		this.number = page;
 		this.row = row;
-		grid(grid, gap);
+		grid(grid, gap, align);
 	}
 	
-	private void grid(String grid, String gap) {
+	private void grid(String grid, String gap, String align) {
 		ArrayList<CItem> sorted = new ArrayList<CItem>();
 		for(int k=0; k<ar.size(); k++) {
 			CItem it = ar.get(k);
@@ -86,9 +86,25 @@ public class Page {
 			Integer g = Integer.parseInt(gap);
 			if(this.outlines == null || this.outlines.equals(new Outlines("full"))) {
 				Integer slots = row*9-1;
-				for(int k=0; k<row; k++) {
-					
+				if(align.contains("top")) {
+					for(int k=0; k<row; k++) {
+						if(align.contains("right")) {
+							for(int i=9; k<row; i--) {
+								
+							}
+						}
+					}
+				} else if(align.contains("center")) {
+					for(int k=0; k<row; k++) {
+						
+					}
+				} else if(align.contains("bottom")) {
+					for(int k=0; k<row; k++) {
+						
+					}
 				}
+
+
 				
 			} else {
 				Integer slots = (row-2)*(7);
