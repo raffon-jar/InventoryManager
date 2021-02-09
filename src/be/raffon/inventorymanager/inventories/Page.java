@@ -91,6 +91,7 @@ public class Page {
 						if(align.contains("right")) {
 							for(int i=9; k<row; i--) {
 								
+								
 							}
 						}
 					}
