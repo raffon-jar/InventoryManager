@@ -25,20 +25,25 @@ public class InventoryManager {
 		JSONArray pages = (JSONArray) inv.get("pages");
 		for(int k=0; k<pages.size(); k++) {
 			JSONObject page = (JSONObject) pages.get(k);
-			Integer rows = (Integer) page.get("rows");
-			Integer pagenum = (Integer) page.get("page");
+			Integer rows = ((Long) page.get("rows")).intValue();
+			Integer pagenum = ((Long) page.get("page")).intValue();
 			String type = (String) page.get("grid-type");
 			String grida = (String) page.get("grid-align");
-			Integer gapa = (Integer) page.get("grid-gap");
+			Integer gapa = ((Long) page.get("grid-gap")).intValue();
 			String outlines = (String) page.get("outlines");
 			String title = (String) page.get("title");
+			
+			if(title.startsWith("[InvManager]")) {
+				System.out.println("ERROR: The inventory with the id "  + ((Long) inv.get("id")).intValue() + " can't be opened because the title of the page" + pagenum + " starts with [InvManager] and this prefix is reserved by the plugin !");
+				return null;
+			}
 			
 			ArrayList<CItem> citems = new ArrayList<CItem>();
 			JSONArray items = (JSONArray) page.get("items");
 			
 			for(int i=0; i<items.size(); i++) {
 				JSONObject citem = (JSONObject) items.get(i);
-				Integer slot = (Integer) citem.get("slot");
+				Integer slot = ((Long) citem.get("slot")).intValue();
 				ItemStack is = inventorymanager.deserialize((JSONObject) citem.get("itemstack"));
 				CPerm perm = new CPerm(new PermissionType("onclick"), new Permission((String) citem.get("perm-onclick")));
 				JSONArray onclick = (JSONArray) citem.get("onclick");
@@ -71,7 +76,7 @@ public class InventoryManager {
 			
 			ps.add(pag);
 		}
-		CPerm openperm = new CPerm(new PermissionType(""), new Permission((String)inv.get("openperm")));
+		CPerm openperm = new CPerm(new PermissionType("open"), new Permission((String)inv.get("openperm")));
 		JSONArray onOpen = (JSONArray) inv.get("onOpen");
 		JSONArray onClose = (JSONArray) inv.get("onClose");
 		ArrayList<Action> onopenar = new ArrayList<Action>();
@@ -91,7 +96,7 @@ public class InventoryManager {
 			onclosear.add(act);
 		}
 		Events ev = new Events(onopenar, onclosear);
-		return new CInventory(ps, ev, openperm, (Integer) inv.get("id"));
+		return new CInventory(ps, ev, openperm, ((Long) inv.get("id")).intValue());
 	}
 	
 	public static CInventory getInventory(Inventory inv) {

@@ -2,6 +2,8 @@ package be.raffon.inventorymanager.listener;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+
+import be.raffon.inventorymanager.inventories.CInventory;
 import be.raffon.inventorymanager.inventories.items.CItem;
 import be.raffon.inventorymanager.permissions.PermissionType;
 
@@ -16,9 +18,9 @@ public class OnClick implements Listener {
 		this.it = it;
 	}
     
-	public void execute() {
+	public void execute(CInventory cinv, Integer pageindex) {
 		if(it.getPerm().hasPermission(player, new PermissionType("click"))) {
-			it.getOnEvent().executeOnClick(player);
+			it.getOnEvent().executeOnClick(player,cinv,pageindex);
 		}
 		
 	}

@@ -1,6 +1,8 @@
 package be.raffon.inventorymanager;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -16,6 +18,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -52,31 +55,54 @@ public class inventorymanager extends JavaPlugin implements Listener{
 	
     @EventHandler
     public void onClick(InventoryClickEvent ev) {
+    	//System.out.println(ev.getView().getTitle());
     	Inventory inv = ev.getInventory();
     	int slot = ev.getSlot();
     	Player p = (Player) ev.getWhoClicked();
+    	if(ev.getView().getTitle().startsWith("[InvManager]")) {
+    		new InventoryCreator(p).ClickedItem(ev);
+    		return;
+    	}
     	ItemStack item = ev.getWhoClicked().getInventory().getItem(slot);
     	CLocation loc = new CLocation(slot, slot%9, (int) Math.floor(slot/9));
     	CInventory cinv = InventoryManager.getInventory(inv);
+    	if(item == null || cinv == null) {
+    		return;
+    	}
     	CItem it = cinv.getCItem(item, loc);
-    	new OnClick(it, p).execute();
+    	Integer page = cinv.getCItemPage(item, loc);
+    	new OnClick(it, p).execute(cinv, page);
     }
     
     
     @EventHandler
     public void onOpen(InventoryOpenEvent ev) {
+    	System.out.println(ev.getView().getTitle());
     	Inventory inv = ev.getInventory();
+    	if(ev.getView().getTitle().startsWith("[InvManager]")) {
+    		new InventoryCreator((Player)ev.getPlayer()).Opened(ev);
+    		return;
+    	}
     	CInventory cinv = InventoryManager.getInventory(inv);
-    	Events events = cinv.getEvents(); 
-    	events.executeOpen((Player) ev.getPlayer());
+    	if(cinv != null) {
+	    	Events events = cinv.getEvents(); 
+	    	events.executeOpen((Player) ev.getPlayer(), cinv);
+    	}
     }
     
     @EventHandler
     public void onClose(InventoryCloseEvent ev) {
+    	System.out.println(ev.getView().getTitle());
     	Inventory inv = ev.getInventory();
     	CInventory cinv = InventoryManager.getInventory(inv);
-    	Events events = cinv.getEvents(); 
-    	events.executeClose((Player) ev.getPlayer());
+    	if(ev.getView().getTitle().startsWith("[InvManager]")) {
+    		new InventoryCreator((Player)ev.getPlayer()).Closed(ev);
+    		return;
+    	}
+    	if(cinv != null) {
+	    	Events events = cinv.getEvents(); 
+	    	events.executeClose((Player) ev.getPlayer(), cinv);
+    	}
     }
     
     public static boolean isNumeric(String strNum) {
@@ -119,6 +145,15 @@ public class inventorymanager extends JavaPlugin implements Listener{
 	public static JSONObject serialize(ItemStack is) {
 		JSONObject obj = new JSONObject();
 		ItemMeta meta = is.getItemMeta();
+		if(meta.hasLore()) {
+			JSONArray lore = new JSONArray();
+			for(int k=0; k<meta.getLore().size(); k++) {
+				String line = meta.getLore().get(k);
+				lore.add(line);
+			}
+			obj.put("lore", lore);
+		} 
+		
 		obj.put("name", meta.getDisplayName());
 		obj.put("amount", String.valueOf(is.getAmount()));
 		Map<Enchantment, Integer> ench = is.getEnchantments();
@@ -145,6 +180,14 @@ public class inventorymanager extends JavaPlugin implements Listener{
 		ItemStack is = new ItemStack(Material.matchMaterial((String) o.get("material")), Integer.parseInt((String) o.get("amount")));
 		is.setDurability(Short.valueOf((String) o.get("durability")));
 		ItemMeta meta = is.getItemMeta();
+		if(o.get("lore") != null) {
+			ArrayList<String> lore = new ArrayList<String>();
+			for(int k=0; k<((JSONArray)o.get("lore")).size(); k++) {
+				String line = (String) ((JSONArray)o.get("lore")).get(k);
+				lore.add(line);
+			}
+			meta.setLore(lore);
+		} 
 		meta.setDisplayName((String) o.get("name"));
 		JSONArray ar = (JSONArray) o.get("enchantment");
 		for(int k=0; k<ar.size(); k++) {
@@ -154,6 +197,16 @@ public class inventorymanager extends JavaPlugin implements Listener{
 		is.setItemMeta(meta);
 		return is;
 		
+	}
+	
+	@EventHandler
+	public void onInvDrag(InventoryDragEvent ev){
+		System.out.println(ev.getView().getTitle());
+		Player p = (Player)ev.getWhoClicked();
+    	if(ev.getView().getTitle().startsWith("[InvManager]")) {
+    		new InventoryCreator(p).Draged(ev);
+    		return;
+    	}
 	}
     
 

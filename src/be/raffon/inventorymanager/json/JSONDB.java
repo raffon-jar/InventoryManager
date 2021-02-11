@@ -54,7 +54,7 @@ public class JSONDB {
 			}
 		}
 		if(!found) {
-			System.out.println("ERROR: The inventory you are looking for doesn't exist.");
+			//System.out.println("ERROR: The inventory you are looking for doesn't exist.");
 			return null;
 		}
 		return null;
@@ -72,11 +72,11 @@ public class JSONDB {
 			Integer i = (Integer) inv.get("id");
 			if(i.equals(id)) {
 				found = true;
-				new InventoryManager().getCInventory(inv).open(p);
+				new InventoryManager().getCInventory(inv).open(p, 0);
 			}
 		}
 		if(!found) {
-			p.sendMessage("ERROR: The inventory you are looking for doesn't exist.");
+			//p.sendMessage("ERROR: The inventory you are looking for doesn't exist.");
 			return;
 		}
 		return;

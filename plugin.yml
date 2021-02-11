@@ -11,7 +11,30 @@ commands:
     permission: inv.open
     aliases:
     - inv
+  invedit:
+    description: 
+    usage: /invedit <inv>
+    permission: inv.edit
+  invcreate:
+    description: 
+    usage: /invcreate <inv>
+    permission: inv.create
 permissions:
+  inv.*: 
+    description: Gives access to all staff commands
+    children:
+      inv.open: true
+      inv.create: true
+      inv.edit: true
   inv.open:
+    description: 
+    default: true
+  inv.edit:
+    description: 
+    default: op
+  inv.create:
+    description: 
+    default: op
+  inv.players:
     description: 
     default: true
