@@ -24,6 +24,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import be.raffon.inventorymanager.creator.InventoryCreator;
 import be.raffon.inventorymanager.inventories.CInventory;
 import be.raffon.inventorymanager.inventories.InventoryManager;
 import be.raffon.inventorymanager.inventories.items.CItem;
@@ -97,11 +98,20 @@ public class inventorymanager extends JavaPlugin implements Listener{
             return true;
         }
         if(args.length == 0 || !isNumeric(args[0])) {
-        	sender.sendMessage(ChatColor.RED + "The inventory is not valid usage: /inv <id> !");
+        	sender.sendMessage(ChatColor.RED + "The inventory is not valid usage: /inv <id> or /invedit <id> !");
         	return true;
-        }
+        }        
         Player player = (Player) sender;
-        new JSONDB().displayInv(Integer.parseInt(args[0]), player);
+        
+        if(alias.equalsIgnoreCase("inv")) {
+        	new JSONDB().displayInv(Integer.parseInt(args[0]), player);
+        } else if(alias.equalsIgnoreCase("invedit")) {
+        	CInventory cinv = new JSONDB().getCInv(Integer.parseInt(args[0]), player);
+        	new InventoryCreator(player).editInv(cinv);
+        } else if(alias.equalsIgnoreCase("invcreate")) {
+        	new InventoryCreator(player).createInv();
+        }
+
 		return true;
 	}
 	

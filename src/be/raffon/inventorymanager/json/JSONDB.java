@@ -83,6 +83,29 @@ public class JSONDB {
 		
 	}
 	
+	public static CInventory getCInv(Integer id, Player p) {
+		if(json == null) {
+			System.out.println("ERROR: the json database has not been initialized. Please make a `new JSONDB()` before trying to get the inventory.");
+			return null; 
+		}
+		JSONArray inventories = (JSONArray) json.get("Inventories");
+		Boolean found = false;
+		for(int k=0; k<inventories.size();k++) {
+			JSONObject inv = (JSONObject) inventories.get(k);
+			Integer i = (Integer) inv.get("id");
+			if(i.equals(id)) {
+				found = true;
+				return new InventoryManager().getCInventory(inv);
+			}
+		}
+		if(!found) {
+			p.sendMessage("ERROR: The inventory you are looking for doesn't exist.");
+			return null;
+		}
+		return null;
+		
+	}
+	
 	@SuppressWarnings("unchecked")
 	public static JSONObject setJSON() {
 		JSONObject obj = new JSONObject();
