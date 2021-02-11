@@ -60,7 +60,7 @@ public class JSONDB {
 		return null;
 	}
 	
-	public static void displayInv(String s, Player p) {
+	public static void displayInv(Integer id, Player p) {
 		if(json == null) {
 			System.out.println("ERROR: the json database has not been initialized. Please make a `new JSONDB()` before trying to get the inventory.");
 			return; 
@@ -69,8 +69,8 @@ public class JSONDB {
 		Boolean found = false;
 		for(int k=0; k<inventories.size();k++) {
 			JSONObject inv = (JSONObject) inventories.get(k);
-			String name = (String) inv.get("name");
-			if(name.equals(s)) {
+			Integer i = (Integer) inv.get("id");
+			if(i.equals(id)) {
 				found = true;
 				new InventoryManager().getCInventory(inv).open(p);
 			}
@@ -86,15 +86,7 @@ public class JSONDB {
 	@SuppressWarnings("unchecked")
 	public static JSONObject setJSON() {
 		JSONObject obj = new JSONObject();
-		obj.put("staff", new JSONArray());
-		obj.put("backup", new JSONArray());
-		obj.put("logs", new JSONArray());
-		obj.put("vanish", new JSONArray());
-		obj.put("fly", new JSONArray());
-		obj.put("freeze", new JSONArray());
-		obj.put("tempban", new JSONArray());
-		obj.put("tempmute", new JSONArray());
-		obj.put("reports", new JSONArray());
+		obj.put("Inventories", new JSONArray());
 		return obj;
 		
 	}

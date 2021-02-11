@@ -16,13 +16,13 @@ public class CInventory {
 	private ArrayList<Page> ar = null;
 	private Events ev = null;
 	private CPerm perm = null;
-	private Outlines out = null;
+	private Integer id = null;
 	
-	public CInventory(ArrayList<Page> pages, Events events, CPerm openperm, Outlines outlines) {
+	public CInventory(ArrayList<Page> pages, Events events, CPerm openperm, Integer id) {
 		this.ar = pages;
 		this.ev = events;
 		this.perm = openperm;
-		this.out = outlines;
+		this.id = id;
 	}
 	
 	
@@ -41,10 +41,24 @@ public class CInventory {
 	}
 	
 	public void open(Player p) {
-		
+		for(int k=0; k<ar.size(); k++) {
+			Page page = ar.get(k);
+			Integer index = page.getInteger();
+			if(index.equals(0)) {
+				Inventory inv = page.generateInv();
+				p.openInventory(inv);
+			}
+		}
 	}
 	
 	public Boolean matchInv(Inventory inv) {
-		return null;
+		for(int k=0; k<ar.size(); k++) {
+			Page page = ar.get(k);
+			Inventory inventory = page.generateInv();
+			if(inventory.equals(inv)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

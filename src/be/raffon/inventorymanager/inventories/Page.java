@@ -2,6 +2,8 @@ package be.raffon.inventorymanager.inventories;
 
 import java.util.ArrayList;
 
+import org.bukkit.Bukkit;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import be.raffon.inventorymanager.inventories.items.CItem;
@@ -13,23 +15,50 @@ public class Page {
 	private Integer number = 0;
 	private Outlines outlines = null;
 	private Integer row = null;
+	private String title = null;
 	
-	public Page(ArrayList<CItem> items, Integer page, String grid, Outlines outlines, Integer row, String gap, String align) {
+	public Page(ArrayList<CItem> items, Integer page, String grid, Outlines outlines, Integer row, Integer gap, String align, String title) {
 		this.ar = items;
 		this.number = page;
-		this.outlines = outlines;
+		if(!outlines.equals("")) {
+			this.outlines = outlines;
+		}
 		this.row = row;
+		this.title = title;
 		grid(grid, gap, align);
 	}
 	
-	public Page(ArrayList<CItem> items, Integer page, String grid, Integer row, String gap, String align) {
+	public Page(ArrayList<CItem> items, Integer page, String grid, Integer row, Integer gap, String align, String title) {
 		this.ar = items;
 		this.number = page;
 		this.row = row;
+		this.title = title;
 		grid(grid, gap, align);
 	}
 	
-	private void grid(String grid, String gap, String align) {
+	public Page(ArrayList<CItem> items, Integer page, Integer row, String title) {
+		this.ar = items;
+		this.number = page;
+		this.row = row;
+		this.title = title;
+	}
+	
+	public Page(ArrayList<CItem> items, Integer page, Integer row, Outlines outlines, String title) {
+		this.ar = items;
+		this.number = page;
+		this.row = row;
+		this.title = title;
+		if(!outlines.equals("")) {
+			this.outlines = outlines;
+		}
+		
+	}
+	
+	public Integer getInteger() {
+		return number;
+	}
+	
+	private void grid(String grid, Integer gap, String align) {
 		ArrayList<CItem> sorted = new ArrayList<CItem>();
 		for(int k=0; k<ar.size(); k++) {
 			CItem it = ar.get(k);
@@ -82,15 +111,44 @@ public class Page {
 
 				}
 			}
-		} else if(grid.equals("grid")) {
-			Integer g = Integer.parseInt(gap);
+		} /*else if(grid.equals("grid")) {
 			if(this.outlines == null || this.outlines.equals(new Outlines("full"))) {
 				Integer slots = row*9-1;
 				if(align.contains("top")) {
+					Integer item = 0;
 					for(int k=0; k<row; k++) {
 						if(align.contains("right")) {
-							for(int i=9; k<row; i--) {
-								
+							for(int i=8; k>=0; i--) {
+								CItem it = ar.get(item);
+								while(it.hasLoc()) {
+									it = ar.get(item+1);
+								}
+								it.setLoc(i*k, k, i);
+								if(gap != 0) {
+									i = i - gap;
+								}
+							}
+						} else if(align.contains("left")) {
+							for(int i=8; k>=0; i++) {
+								CItem it = ar.get(item);
+								while(it.hasLoc()) {
+									it = ar.get(item+1);
+								}
+								it.setLoc(i*k, k, i);
+								if(gap != 0) {
+									i = i + gap;
+								}
+							}
+						} else if(align.contains("center")) {
+							for(int i=8; k>=0; i++) {
+								CItem it = ar.get(item);
+								while(it.hasLoc()) {
+									it = ar.get(item+1);
+								}
+								it.setLoc(i*k, k, i);
+								if(gap != 0) {
+									i = i + gap;
+								}
 							}
 						}
 					}
@@ -113,7 +171,16 @@ public class Page {
 				}
 				
 			}
+		}*/
+	}
+	
+	public Inventory generateInv() {
+		Inventory inv = Bukkit.createInventory(null, 9*row, title);
+		for(int k=0; k<ar.size(); k++) {
+			CItem it = ar.get(k);
+			inv.setItem(it.getLoc().getLocation(),it.getIS());
 		}
+		return inv;
 	}
 	
 	public CItem getCItem(ItemStack is, CLocation loc) {

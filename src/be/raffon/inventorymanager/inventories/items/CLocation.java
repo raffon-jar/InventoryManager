@@ -12,6 +12,12 @@ public class CLocation {
 		this.column = column;
 	}
 	
+	public CLocation(int numberininv) {
+		this.loc = numberininv;
+		this.row = numberininv%9;
+		this.column = (int) Math.floor(numberininv/9);
+	}
+	
 	public Integer getLocation() {
 		return loc;
 	}

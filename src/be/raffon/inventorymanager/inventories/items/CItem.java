@@ -1,6 +1,5 @@
 package be.raffon.inventorymanager.inventories.items;
 
-import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
 import be.raffon.inventorymanager.permissions.CPerm;
