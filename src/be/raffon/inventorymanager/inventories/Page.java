@@ -58,6 +58,18 @@ public class Page {
 		return number;
 	}
 	
+	public Integer getRows() {
+		return row;
+	}
+	
+	public String getTitle() {
+		return title;
+	}
+	
+	public Outlines getOutlines() {
+		return outlines;
+	}
+	
 	private void grid(String grid, Integer gap, String align) {
 		ArrayList<CItem> sorted = new ArrayList<CItem>();
 		for(int k=0; k<ar.size(); k++) {

@@ -31,6 +31,10 @@ public class CInventory {
 		return ev;
 	}
 	
+	public Integer getID() {
+		return id;
+	}
+	
 	public ArrayList<Page> getPages() {
 		return ar;
 	}
@@ -53,7 +57,7 @@ public class CInventory {
 		for(int k=0; k<ar.size(); k++) {
 			Page page = ar.get(k);
 			Integer index = page.getInteger();
-			if(index.equals(0)) {
+			if(index.equals(pageindex)) {
 				Inventory inv = page.generateInv();
 				p.openInventory(inv);
 			}
@@ -81,5 +85,9 @@ public class CInventory {
 			}
 		}
 		return -1;
+	}
+	
+	public void SavetoJSOn() {
+		
 	}
 }

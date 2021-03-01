@@ -21,7 +21,7 @@ public class JSONDB {
 	
 	static private File js = null;
 	
-	static private JSONObject json = null;
+	static public JSONObject json = null;
 	
 	public JSONDB() {
 		try {
@@ -36,6 +36,7 @@ public class JSONDB {
 		}	
 		
 	}
+
 	
 	
 	public static CInventory verifyInventory(Inventory inventory) {
@@ -106,10 +107,66 @@ public class JSONDB {
 		
 	}
 	
+	
+	@SuppressWarnings("unchecked")
+	public static void waitingFor(String string, Player p) {
+		JSONArray ar = (JSONArray) json.get("waitingfor");
+		Boolean found = false;
+		for(int k=0; k<ar.size(); k++) {
+			JSONObject wait = (JSONObject) ar.get(k);
+			if(wait.get("player").equals(p.getDisplayName())) {
+				wait.remove("wait");
+				wait.put("wait", string);
+				wait.put("complete", "false");
+				found = true;
+			}
+		}
+		if(!found) {
+			JSONObject obj = new JSONObject();
+			obj.put("wait", string);
+			obj.put("complete", "false");
+			obj.put("player", p.getDisplayName());
+			ar.add(obj);
+		}
+		updateJSON();
+	}
+	
+	
+	public static Boolean hasresponded(Player p, String s) {
+		JSONArray ar = (JSONArray) json.get("waitingfor");
+		for(int k=0; k<ar.size(); k++) {
+			JSONObject wait = (JSONObject) ar.get(k);
+			if(wait.get("player").equals(p.getDisplayName())) {
+				if(wait.get("complete").equals("true")) {
+					return true;
+				} else {
+					return false;
+				}
+				
+			}
+		}
+		return false;
+	}
+	
+	public static String getResponse(Player p) {
+		JSONArray ar = (JSONArray) json.get("waitingfor");
+		for(int k=0; k<ar.size(); k++) {
+			JSONObject wait = (JSONObject) ar.get(k);
+			if(wait.get("player").equals(p.getDisplayName())) {
+				if(wait.get("complete").equals("false")) {
+					return (String) wait.get("wait");
+				}
+			}
+		}
+		return null;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public static JSONObject setJSON() {
 		JSONObject obj = new JSONObject();
 		obj.put("Inventories", new JSONArray());
+		obj.put("backup", new JSONArray());
+		obj.put("waitingfor", new JSONArray());
 		return obj;
 		
 	}
@@ -132,6 +189,16 @@ public class JSONDB {
 
 		}
 		js = new File(file, "//" + "config.JSON");
+	}
+	
+	public static void updateJSON() {
+		try {
+			FileWriter file = new FileWriter(js);
+			file.write(json.toJSONString());
+			file.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 
